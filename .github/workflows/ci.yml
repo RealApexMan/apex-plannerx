@@ -39,11 +39,11 @@ jobs:
       # Linter
       - name: Lint
         run: npm run lint
+        
+      # Build
+      - name: Build
+        run: npm run build
 
       # Tests
       - name: Test
         run: npm run test:ci
-
-      # Build
-      - name: Build
-        run: npm run build
