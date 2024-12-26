@@ -1,5 +1,10 @@
 {
   "projects": {
-    "default": "apex-plannerx-staging"
-  }
+    "default": "apex-plannerx-dev",
+    "development": "apex-plannerx-dev",
+    "staging": "apex-plannerx-staging",
+    "production": "apex-plannerx-prod"
+  },
+  "targets": {},
+  "etags": {}
 }
