@@ -1,15 +1,14 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
 
-
 /**
- * This interface represents the payload returned by Firebase
- * when registering a new user using email and password.
- *  @see https://firebase.google.com/docs/reference/rest/auth?hl=fr#section-create-email-password
-*/
-interface FirebaseResponseRegister{
+ * Represents the payload of the response received when registering a new user in Firebase.
+ *
+ * @see https://firebase.google.com/docs/reference/rest/auth?hl=fr#section-create-email-password
+ */
+interface FirebaseResponseSignup {
   idToken: string;
   email: string;
   refreshToken: string;
@@ -17,16 +16,58 @@ interface FirebaseResponseRegister{
   localId: string;
 }
 
+interface FirebaseResponseSignin {
+  displayName: string;
+  email: string;
+  expiresIn: string;
+  idToken: string;
+  localId: string;
+  refreshToken: string;
+  registered: boolean;
+}
+
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthenticationService {
   readonly #http = inject(HttpClient);
 
-  register(email: string, password: string): Observable<FirebaseResponseRegister> {
+  register(
+    email: string,
+    password: string
+  ): Observable<FirebaseResponseSignup> {
     const url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.firebase.apiKey}`;
-    const body = {email, password, returnSecureToken:true };
-    return this.#http.post<FirebaseResponseRegister>(url, body);
+    const body = { email, password, returnSecureToken: true };
+
+    return this.#http.post<FirebaseResponseSignup>(url, body);
   }
 
+  login(email: string, password: string): Observable<FirebaseResponseSignin> {
+    const url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.firebase.apiKey}`;
+    const body = { email, password, returnSecureToken: true };
+
+    return this.#http.post<FirebaseResponseSignin>(url, body);
+  }
+
+  save(
+    email: string,
+    userId: string,
+    bearerToken: string
+  ): Observable<unknown> {
+    const baseUrl = `https://firestore.googleapis.com/v1/projects/${environment.firebase.projectId}/databases/(default)/documents`;
+    const userFirestoreCollectionId = 'users';
+    const url = `${baseUrl}/${userFirestoreCollectionId}?key=${environment.firebase.apiKey}&documentId=${userId}`;
+    const body = {
+      fields: {
+        email: { stringValue: email },
+      },
+    };
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${bearerToken}`,
+    });
+    const options = { headers };
+
+    return this.#http.post(url, body, options);
+  }
 }
