@@ -50,14 +50,38 @@
                   "maximumError": "4kB"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ]
+            },
+            "staging": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.staging.ts"
+                }
+              ]
             },
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true
+              "sourceMap": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.dev.ts"
+                }
+              ]
             }
           },
+          
           "defaultConfiguration": "production"
         },
         "serve": {
@@ -65,6 +89,9 @@
           "configurations": {
             "production": {
               "buildTarget": "apex-plannerx:build:production"
+            },
+            "staging": {
+              "buildTarget": "apex-plannerx:build:staging"
             },
             "development": {
               "buildTarget": "apex-plannerx:build:development"
