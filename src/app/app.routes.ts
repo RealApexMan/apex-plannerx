@@ -1,4 +1,11 @@
 import { Routes } from '@angular/router';
-import { HomepageComponent } from './visitor/homepage/homepage.component';
+import { HomePageComponent } from './visitor/home/home.page.component';
 
-export const routes: Routes = [{path: '', component: HomepageComponent, title: 'Homepage - Apex Planner'}];
+
+export const routes: Routes = [
+    {
+        path: '',
+        component: HomePageComponent,
+        title: 'Apex Planner'
+    }
+];
