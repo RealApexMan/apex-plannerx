@@ -14,6 +14,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "jest",
     "test:coverage": "jest --coverage",
+    "test:watch":"jest --watch --onlyChanged --verbose",
     "lint": "ng lint"
   },
   "private": true,
