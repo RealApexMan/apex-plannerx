@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { FeatureCardList } from './homepage-feature-card-list.interface';
 
 @Component({
   selector: 'app-homepage-feature-card-list',
@@ -10,6 +11,6 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 })
 export class HomepageFeatureCardListDumbComponent {
 
-  readonly featureCardList = input.required();
+  readonly featureCardList = input.required<FeatureCardList>();
 
 }
