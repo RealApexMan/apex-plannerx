@@ -8,7 +8,6 @@ import { User } from '../entity/user.interface';
 @Injectable()
 export class UserFirebaseService implements UserService {
   readonly #http = inject(HttpClient);
-
   readonly #FIRESTORE_URL = `https://firestore.googleapis.com/v1/projects/${environment.firebase.projectId}/databases/(default)/documents`;
   readonly #USER_COLLECTION_ID = 'users';
   readonly #FIREBASE_API_KEY = environment.firebase.apiKey;
