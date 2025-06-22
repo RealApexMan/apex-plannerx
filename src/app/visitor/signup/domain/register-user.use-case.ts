@@ -27,18 +27,16 @@ export class RegisterUserUseCase {
     }
 
     // 2. Add credentials information in session storage
-    const { userId: id, jwtToken, jwtRefreshToken, expiresIn } = registerResponse;
+    const { userId: id, jwtToken } = registerResponse;
 
     localStorage.setItem('jwtToken', jwtToken);
-    localStorage.setItem('jwtRefreshToken', jwtRefreshToken)
-    localStorage.setItem('expiresIn', expiresIn)
 
     // 3. Create new user in database
     const user: User = { id, name, email };
     await firstValueFrom(this.#userService.create(user, jwtToken));
 
     // 4. Add user in app store
-    this.#userStore.load(user);
+    this.#userStore.register(user);
 
     // 5. Redirect user to dashboard
     this.#router.navigate(['/app/dashboard']);

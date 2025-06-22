@@ -1,7 +1,5 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { LoginUserUseCase } from './domain/login-user.use-case';
-import { InvalidCredentialError } from './domain/invalid-credential.error';
 
 @Component({
   imports: [FormsModule],
@@ -9,17 +7,6 @@ import { InvalidCredentialError } from './domain/invalid-credential.error';
   styleUrl: './login.page.component.scss'
 })
 export class LoginPageComponent {
-  readonly #loginUserUseCase = inject(LoginUserUseCase);
-
   readonly email = signal('');
   readonly password = signal('');
-  readonly invalidCredentialError = signal<InvalidCredentialError|null>(null);
-
-  onSubmit(){
-    this.#loginUserUseCase.exectute(this.email(), this.password()).catch(error => {
-      if(error instanceof InvalidCredentialError){
-        this.invalidCredentialError.set(error);
-      }
-    })
-  }
 }

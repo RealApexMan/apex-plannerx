@@ -12,7 +12,6 @@ interface UserState {
   user: User | undefined;
 }
 
-export type UserStore = InstanceType<typeof UserStore>;
 export const UserStore = signalStore(
   { providedIn: 'root' },
   withState<UserState>({
@@ -26,7 +25,7 @@ export const UserStore = signalStore(
     return { isGoogleUser };
   }),
   withMethods((store) => ({
-    load(user: User): void {
+    register(user: User): void {
       patchState(store, { user });
     },
   }))
